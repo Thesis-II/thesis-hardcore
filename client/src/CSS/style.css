@@ -126,8 +126,9 @@ nav ul li a {
   border-radius: 30px;
 }
 nav ul li a:hover {
-  background: black;
-  color: white;
+  background: #f6f4ff;
+  color: black;
+  border: 1px solid black;
 }
 nav ul li a.active {
   background: #675cff;
@@ -191,3 +192,138 @@ nav ul li a.active {
   }
 }
 /*NAVBAR CSS END*/
+
+/*HOME CSS START*/
+.home-main {
+  display: flex;
+  justify-content: center;
+  height: 90vh;
+}
+.home-wrapper {
+  width: 80%;
+  height: 100px;
+  background: #fefefe;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  margin-top: 55px;
+  height: 80%;
+}
+.words-wrapper {
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  width: 50%;
+  padding: 10px;
+}
+.title-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 35px;
+}
+.img-wrapper {
+  width: 350px;
+  height: 450px;
+  position: relative;
+}
+.name-home {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-style: italic;
+}
+.remark-home {
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+.sub-title-wrapper {
+  font-weight: 20px;
+  margin-bottom: 20px;
+  font-style: italic;
+  font-weight: bolder;
+}
+
+.btn {
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px 35px;
+  color: black;
+  border-radius: 40px;
+  display: inline-block;
+  white-space: nowrap;
+  border: none;
+  background: #106d70;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.btn:hover {
+  background: #f6f4ff;
+  color: black;
+  border: 1px solid black;
+}
+/*HOME CSS END*/
+
+/*ABOUT CSS START*/
+.about-main {
+  display: flex;
+  justify-content: center;
+  height: 90vh;
+}
+.about-wrapper {
+  width: 80%;
+  height: 100px;
+  background: #fefefe;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  margin-top: 55px;
+  height: 80%;
+}
+.content-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 80%;
+  width: 90%;
+  padding: 0 10px;
+}
+.content-control {
+  width: 25%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  box-shadow: 60px;
+  border: 1px solid bisque;
+}
+.img-control {
+  width: 70%;
+  border-radius: 90px;
+  margin: 20px;
+}
+.AName {
+  font-weight: bolder;
+  font-style: normal;
+  font-size: larger;
+}
+.ATitle {
+  margin: 10px;
+  font-weight: bold;
+  font-size: small;
+}
+.AQoute {
+  padding: 0 10px;
+  display: flex;
+  justify-content: start;
+  font-style: normal;
+  font-style: italic;
+  font-weight: 600;
+}
+/*ABOUT CSS END  j*/
