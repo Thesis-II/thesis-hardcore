@@ -1,7 +1,13 @@
 import Navbar from "./Navbar";
 import lg from "../assets/teacher.png";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const redirectToPage = () => {
+    navigate("/practice");
+  };
   return (
     <div>
       <Navbar />
@@ -20,7 +26,9 @@ const Home = () => {
                 that you learn, the more places you’ll go.
               </p>
             </div>
-            <button className='btn'>Start Now</button>
+            <button className='btn' onClick={redirectToPage}>
+              Start Now
+            </button>
           </div>
           <img src={lg} className='img-wrapper' />
         </div>

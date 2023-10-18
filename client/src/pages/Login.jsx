@@ -15,13 +15,14 @@ const Login = () => {
       .then((response) => {
         if (response.data === "Login successful") {
           alert("Login successful!");
-          // Redirect or perform other actions after successful login
+          window.location.href = "/homeA";
         } else {
           alert("Login Failed.");
         }
       })
       .catch((error) => {
         console.error(error);
+        alert("An error occurred during login."); // Alert for request error
       });
   };
 
@@ -63,7 +64,7 @@ const Login = () => {
             </div>
             <div className='register-link'>
               <p>
-                <Link to='/home'>Back to home</Link>
+                <Link to='/'>Back to home</Link>
               </p>
             </div>
           </form>
