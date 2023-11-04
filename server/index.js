@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 const mysql2 = require("mysql2");
+const jwt = require("jsonwebtoken");
 
 const db = mysql2.createPool({
   host: "localhost",
@@ -15,58 +16,145 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Login into user account start //
+// Login into user account start
 app.post("/api/login", (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
 
-  const sqlSelect =
-    "SELECT * FROM user_account WHERE username = ? AND password = ?";
-  db.query(sqlSelect, [username, password], (err, result) => {
+  const sqlSelectUser =
+    "SELECT UserID FROM user_account WHERE username = ? AND password = ?";
+
+  db.query(sqlSelectUser, [username, password], (err, result) => {
     if (err) {
       console.error(err);
       res.status(500).send("Error during login");
     } else {
       if (result.length > 0) {
-        res.status(200).send("Login successful");
+        const user = result[0];
+        const userID = user.UserID;
+        const sectionID = user.sectionID;
+
+        const token = jwt.sign(
+          { userId: userID, sectionId: sectionID },
+          "your-secret-key",
+          {
+            expiresIn: "1h",
+          }
+        );
+
+        res.status(200).json({
+          message: "Login successful",
+          token: token,
+        });
       } else {
         res.status(401).send("Invalid credentials");
       }
     }
   });
 });
-// Login into user account start //
+
+// In the /api/user-data route
+app.get("/api/user-data", (req, res) => {
+  const token = req.headers.authorization;
+  console.log("Token in request headers:", token);
+
+  if (!token) {
+    return res.status(401).send("Unauthorized");
+  }
+
+  try {
+    const decoded = jwt.verify(token, "your-secret-key");
+    console.log("Decoded token:", decoded);
+    const userID = decoded.userId;
+    const sectionID = decoded.sectionId;
+
+    const sqlSelect =
+      "SELECT * FROM section_list WHERE UserID = ? AND sectionID = ?";
+
+    db.query(sqlSelect, [userID, sectionID], (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Error during data retrieval");
+      } else {
+        res.status(200).json(result);
+      }
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(401).send("Invalid token");
+  }
+});
+// Login into user account end
 
 // Insert New User Account Start //
 
+function generateRandomAccountNumber() {
+  const numbers = "0123456789";
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  let randomAccountNumber = "";
+
+  for (let i = 0; i < 4; i++) {
+    const randomIndex = Math.floor(Math.random() * numbers.length);
+    randomAccountNumber += numbers.charAt(randomIndex);
+  }
+
+  for (let i = 0; i < 4; i++) {
+    const randomIndex = Math.floor(Math.random() * letters.length);
+    randomAccountNumber += letters.charAt(randomIndex);
+  }
+
+  randomAccountNumber = randomAccountNumber
+    .split("")
+    .sort(function () {
+      return 0.5 - Math.random();
+    })
+    .join("");
+
+  return randomAccountNumber;
+}
+
+// Your existing route code
 app.post("/api/insert", (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   const sqlInsert =
-    "INSERT INTO user_account (username, password) VALUES (?,?)";
-  db.query(sqlInsert, [username, password], (err, result) => {
-    if (err) {
-      console.log(err);
-      res
-        .status(500)
-        .send("Request failed, error inserting data into database.");
-    } else {
-      console.log("Data inserted successfully");
-      res.status(200).send("Data inserted successfully");
+    "INSERT INTO user_account (UserID, username, password) VALUES (?,?,?)";
+
+  // Generate a random account number (UserID) using the function
+  const randomAccountNumber = generateRandomAccountNumber();
+
+  // Continue with the rest of your code
+  db.query(
+    sqlInsert,
+    [randomAccountNumber, username, password],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res
+          .status(500)
+          .send("Request failed, error inserting data into the database.");
+      } else {
+        console.log("Data inserted successfully");
+        res.status(200).send("Data inserted successfully");
+      }
     }
-  });
+  );
 });
 // Insert New User Account End //
 // Insert New Section Start //
 app.post("/api/insection", (req, res) => {
   const sname = req.body.sname;
-  const sqlInsert = "INSERT INTO section_list (sname) values (?)";
-  db.query(sqlInsert, [sname], (err, result) => {
+  const userID = req.body.userID; // Extract the userID from the request body
+
+  // Modify your SQL query to insert both section name and user ID into the database
+  const sqlInsert = "INSERT INTO section_list (sname, UserID) VALUES (?, ?)";
+
+  db.query(sqlInsert, [sname, userID], (err, result) => {
     if (err) {
       console.log(err);
       res
         .status(500)
-        .send("Request failed, error inserting data into database.");
+        .send("Request failed, error inserting data into the database.");
     } else {
       console.log("Data inserted successfully.");
       res.status(200).send("Data inserted successfully.");
