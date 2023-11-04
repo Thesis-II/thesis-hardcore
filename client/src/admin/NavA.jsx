@@ -23,7 +23,7 @@ const NavA = () => {
               <Link to='/assessment'>Assessment</Link>
             </li>
             <li>
-              <Link to='/login' className='active'>
+              <Link to='/modified-login' className='active'>
                 Logout
               </Link>
             </li>

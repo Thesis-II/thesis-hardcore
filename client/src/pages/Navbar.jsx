@@ -23,7 +23,7 @@ const Navbar = () => {
               <Link to='/practice'>Practice</Link>
             </li>
             <li>
-              <Link to='/login' className='active'>
+              <Link to='/modified-login' className='active'>
                 Login
               </Link>
             </li>

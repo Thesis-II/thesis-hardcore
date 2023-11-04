@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Clicker+Script&family=Poppins:ital,wght@0,300;0,500;0,600;1,200&display=swap");
 
-/*LOGIN CSS STYLE START*/
 * {
   margin: 0;
   padding: 0;
@@ -9,87 +8,198 @@
   list-style: none;
   text-decoration: none;
 }
-.make-it-drop {
+/*LOGIN CSS STYLE START*/
+.login-main-container {
   display: flex;
-  justify-content: center;
-}
-.main-wrapper {
-  width: 100%;
-  display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  width: 100%;
 }
-.wrapper {
-  background: transparent;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(20px);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  color: #fff;
-  border-radius: 10px;
-  padding: 30px 40px;
+.login-wrapper {
+  height: 300px;
+  width: 488px;
+  border: 1px black solid;
+  background-color: whitesmoke;
+  box-shadow: 0 0 15px black;
+}
+.h3-login-wrapper {
   display: flex;
   justify-content: center;
-}
-.wrapper h1 {
-  font-size: 36px;
-  text-align: center;
-}
-.wrapper .input-box {
-  position: relative;
+  align-items: center;
+  border-bottom: 2px black solid;
+  font-size: 34px;
+  font-weight: bold;
+  font-family: "Poppins", sans-serif;
   width: 100%;
-  height: 50px;
-  margin: 30px 0;
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 0, 0, 0),
+    rgba(255, 0, 0, 1)
+  );
 }
-.input-box input {
+.h3-control-header {
+  padding: 4px;
+  margin: 2px;
   width: 100%;
-  height: 100%;
-  background: transparent;
-  border: none;
-  outline: none;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  border-radius: 40px;
+}
+.h3-control {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 160px;
+}
+.textbox-wrapper {
+  padding: 0 12px 8px 12px;
+  height: 62px;
+}
+.textbox {
+  display: flex;
+}
+.textbox-control {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 440px;
+  height: 44px;
+  margin-top: 4px;
+}
+.input-field {
+  padding: 10px;
+  width: 100%;
+  height: 44px;
   font-size: 16px;
-  color: #fff;
-  padding: 20px 45px 20px 20px;
 }
-.input-box input::placeholder {
-  color: #fff;
+.textbox-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 62px;
+  height: 44px;
 }
-.input-box i {
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 20px;
-}
-.wrapper .btn {
-  width: 100%;
-  height: 45px;
-  background: #fff;
-  border: none;
-  outline: none;
-  border-radius: 40px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.textbox-icon:hover {
+  transition: 0.5s;
   cursor: pointer;
-  font-size: 16px;
-  color: #333;
-  font-weight: 600;
 }
-.wrapper .register-link {
-  font-size: 14.5px;
-  text-align: center;
-  margin-top: 20px 0 15px;
+.login-links {
+  width: 100%;
+  height: 24px;
+  border-top: 2px solid black;
 }
-.register-link p a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: 600;
+.login-or {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-style: italic;
+  font-size: 18px;
 }
-.register-link p a:hover {
+.login-link {
   text-decoration: underline;
 }
+.input-field.expanded {
+  height: 44px !important;
+}
+.login-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 42px;
+  margin: 0 20px 6px 20px;
+}
+.login-btn {
+  border-radius: 4px;
+  background-color: #047eaa;
+  color: antiquewhite;
+  font-size: 24px;
+  height: 100%;
+  width: 100%;
+  transition: 0.5s;
+}
+.login-btn:hover {
+  cursor: pointer;
+  background-color: #1434a4;
+  box-shadow: 0 0 10px black;
+}
 /*LOGIN CSS STYLE END*/
+/*Register CSS Style Start*/
+.register-main-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+.register-wrapper {
+  height: 480px;
+  width: 488px;
+  border: 1px black solid;
+  background-color: whitesmoke;
+  box-shadow: 0 0 15px black;
+}
+.register-button-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 44px;
+  width: auto;
+}
+.register-button {
+  width: 95%;
+  height: 38px;
+  font-size: 22px;
+  margin: 10px 0 10px 0;
+  background-color: #06840a;
+}
+.register-button:hover {
+  background-color: #06840a;
+  color: wheat;
+  transition: 0.5s;
+  box-shadow: 0 0 10px black;
+}
+.input-field-number:disabled {
+  padding: 10px;
+  width: 70%;
+  height: 44px;
+  font-size: 16px;
+  background: #dddddd;
+  top: 144px;
+}
+.generate-number-button {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  background-color: #008cba;
+}
+.generate-number-button:hover {
+  background-color: #047eaa;
+  transition: 0.5s;
+  box-shadow: 0 0 10px black;
+}
+.generate-number-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  height: 44px;
+}
+.h3-register-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 2px black solid;
+  font-size: 34px;
+  font-weight: bold;
+  font-family: "Poppins", sans-serif;
+  width: 100%;
+  background-image: linear-gradient(
+    to left,
+    rgba(255, 0, 0, 0),
+    rgba(255, 0, 0, 1)
+  );
+}
+/*Register CSS Style End*/
 
 /*NAVBAR CSS START*/
 .body {
@@ -772,7 +882,253 @@ button {
 }
 .class-sidebar-semi-container {
   display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-content: space-between;
   color: black;
 }
 /*START CLASS CSS END*/
+/*UNIT 1 CSS START*/
+.img-words-container {
+  height: 100%;
+  width: 100%;
+  background-color: wheat;
+}
+.img-words-main-container {
+  display: flex;
+  width: 100%;
+  height: 95%;
+}
+.img-words-sub-container-1,
+.img-words-sub-container-2 {
+  display: flex;
+  margin: 1px;
+  padding: none;
+  height: 50%;
+  width: 100%;
+  border: 3px black solid;
+}
+.img-words-sub-container-3 {
+  width: 30%;
+  background-color: wheat;
+}
+.img-words-special-container {
+  width: 70%;
+  margin: 1px;
+}
+.img-control-unit {
+  height: 80%;
+}
+.word-control {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  height: 20%;
+}
+.image-div {
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: red;
+}
+.units-control {
+  border: 2px black solid;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  height: 50%;
+  width: 100%;
+}
+.h2-lesson-control {
+  width: 14rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.h2-lesson-control:hover {
+  background-color: #ddd;
+}
+.lesson-icon-control {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.link-css-control {
+  font-size: 14px;
+  width: 20rem;
+}
+.link-css-control:hover {
+  background-color: #ddd;
+}
+.h3-word-control {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: 2px solid black;
+  width: 100%;
+}
+.h3-word-control:hover {
+  background: #ddd;
+}
+.title-voice-changer-control {
+  display: flex;
+  justify-content: space-between;
+}
+.control-wrapper {
+  height: 100%;
+  background-color: #ddd;
+}
+.control-word {
+  display: flex;
+  background-color: #ddd;
+  height: 35%;
+  justify-content: center;
+  align-items: center;
+  font-size: large;
+}
+.control-trigger-button {
+  display: flex;
+  justify-content: space-around;
+  border-top: 2px black solid;
+  border-bottom: 2px black solid;
+  padding: 2px 0px 2px 0px;
+  height: 52px;
+  margin: none;
+}
+.lesson-1-btn-wrapper-green {
+  background-color: #4caf50;
+  border-radius: 12px;
+  width: 100%;
+  margin: 0 3px 0 3px;
+}
+.lesson-1-btn-wrapper-green:hover {
+  background-color: #ddd;
+  border: 2px black solid;
+  transition: 0.5s;
+}
+.indicator-wrapper,
+.control-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4px;
+  font-size: larger;
+}
+.control-indicator {
+  height: 44px;
+  width: 100%;
+}
+.green {
+  color: white;
+  background-color: green;
+}
+.red {
+  color: white;
+  background-color: rgb(145, 3, 3);
+}
+.indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(100, 0, 0);
+  animation: none;
+  height: 44px;
+  width: 44px;
+  border-radius: 90px;
+  margin-top: 4px;
+}
+.active-listening {
+  background-color: blue;
+  animation: blink 2s infinite;
+}
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.error-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  background-color: red;
+  margin-top: 4px;
+  height: 22px;
+}
+/*UNIT 1 CSS END*/
+/*TEST UI START*/
+.class-test-main-wrapper {
+  width: 70%;
+  height: 100%;
+  box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 0.2),
+    5px 5px 5px 0 rgba(0, 0, 0, 0.19);
+  background-color: whitesmoke;
+}
+.class-test-box-1 {
+  display: flex;
+  justify-content: center;
+  background-color: wheat;
+  font-size: 34px;
+  font-weight: bold;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  text-decoration: underline;
+  width: 100%;
+  padding: 10px;
+}
+.class-test-box-2 {
+  font-size: 24px;
+  width: 100%;
+  padding: 10px;
+}
+.class-test-box-3 {
+  width: 100%;
+  padding: 10px;
+}
+.words-controller {
+  cursor: pointer;
+  color: #0437f2;
+  text-decoration: underline;
+}
+.class-test-box-3 {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  align-items: center;
+}
+.class-test-button-control {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  color: white;
+  border-radius: 6px;
+  box-shadow: 0px 2px 2px black;
+  background-color: rgb(16, 152, 3);
+  transition: 0.5s;
+  height: 34px;
+  width: 100%;
+}
+.class-test-button-control:hover {
+  color: wheat;
+  background-color: #0c4d0e;
+  box-shadow: 0px 2px black;
+}
+.class-test-box-4 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+.class-test-table {
+  width: 100%;
+  background-color: #008cba;
+  color: white;
+}
+/*TEST UI START*/
