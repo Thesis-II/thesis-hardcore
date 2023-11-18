@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 
 const NavA = () => {
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+  };
   return (
     <div className='body'>
       <div className='header'>
@@ -23,7 +26,10 @@ const NavA = () => {
               <Link to='/assessment'>Assessment</Link>
             </li>
             <li>
-              <Link to='/modified-login' className='active'>
+              <Link
+                to='/modified-login'
+                className='active'
+                onClick={handleLogout}>
                 Logout
               </Link>
             </li>

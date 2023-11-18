@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Axios from "axios";
 import NavA from "./NavA";
 
-const Dashboard = () => {
+const Student = () => {
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [editStudentId, setEditStudentId] = useState(null); // Correct the state declaration
   const { sectionID } = useParams();
@@ -124,6 +124,7 @@ const Dashboard = () => {
             name='fname'
             value={editFirstName}
             onChange={(e) => setEditFirstName(e.target.value)}
+            style={{ textAlign: "center" }}
           />
           <label className='add-new-student-content' htmlFor='lname'>
             Last Name :
@@ -135,6 +136,7 @@ const Dashboard = () => {
             name='lname'
             value={editLastName}
             onChange={(e) => setEditLastName(e.target.value)}
+            style={{ textAlign: "center" }}
           />
           <label className='add-new-student-content' htmlFor='sectionID'>
             Assign to Section :
@@ -146,19 +148,13 @@ const Dashboard = () => {
             name='sectionID'
             value={editSectionID}
             onChange={(e) => setEditSectionID(e.target.value)}
+            disabled
+            style={{ textAlign: "center" }}
           />
           <div className='button-for-new-student-submission'>
             <button className='submit-new-student' onClick={updateStudent}>
               Submit
             </button>
-          </div>
-          {/* <Link to={`/student/${section.sectionID}`}>
-            <button className='btn-view'>View</button>
-          </Link> */}
-          <div className='button-for-starting-class'>
-            <Link to={`/startClass`}>
-              <button className='start-class'>START CLASS</button>
-            </Link>
           </div>
         </div>
         <div className='class-starter'></div>
@@ -166,20 +162,31 @@ const Dashboard = () => {
           <table className='section-list'>
             <thead>
               <tr>
-                <th>#</th>
-                <th className='section-th'>First Name</th>
-                <th className='section-th'>Last Name</th>
-                <th className='section-th'>Section ID</th>
-                <th className='th-control'>Actions</th>
+                <th style={{ textAlign: "center" }}>#</th>
+                <th className='section-th' style={{ textAlign: "center" }}>
+                  First Name
+                </th>
+                <th className='section-th' style={{ textAlign: "center" }}>
+                  Last Name
+                </th>
+                <th className='section-th' style={{ textAlign: "center" }}>
+                  Section ID
+                </th>
+                <th className='th-control' style={{ textAlign: "center" }}>
+                  %
+                </th>
               </tr>
             </thead>
             <tbody>
               {studentData.map((student, index) => (
                 <tr key={student.id}>
-                  <td>{index + 1}</td>
-                  <td>{student.firstName}</td>
-                  <td>{student.lastName}</td>
-                  <td>{sectionID}</td>
+                  <td style={{ textAlign: "center" }}>{index + 1}</td>
+                  <td style={{ textAlign: "center" }}>{student.firstName}</td>
+                  <td style={{ textAlign: "center" }}>{student.lastName}</td>
+                  <td style={{ textAlign: "center" }}>{sectionID}</td>
+                  <td style={{ textAlign: "center" }}>
+                    {(student.total_score / 8) * 100}%
+                  </td>
                   <td className='td-control'>
                     <button
                       className='btn-edit'
@@ -202,4 +209,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Student;

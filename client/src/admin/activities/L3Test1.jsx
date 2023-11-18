@@ -3,8 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import NavA from "../NavA";
 import Axios from "axios";
 
-const L1Test1 = () => {
-  const wordData = ["Sunny", "Found", "Thirsty", "Water"];
+const L3Test1 = () => {
+  const wordData = ["Funny", "Like", "Yell", "Happy"];
   const [quizItemsCorrectness, setQuizItemsCorrectness] = useState(
     Array(wordData.length).fill("")
   );
@@ -76,7 +76,7 @@ const L1Test1 = () => {
   };
 
   let textToRead =
-    "Once, on a sunny day, a crow found a pitcher. The crow was thirsty. It used a stone to drop into the pitcher and get the water it needed.";
+    "Macmac is a black crow. She is a funny crow. Macmac likes to go to the well. She likes to run around the well. Ted sees Macmac run around the well. Ted yells, Macmac dont run around the well! Macmac falls into the well! Oh, oh! She cant swim. What to do, what to do? Ted gets a big net. He gets Macmac out of the well. Thats good. Macmac is wet but Happy Ted is happy.";
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -266,14 +266,19 @@ const L1Test1 = () => {
           </div>
           <div className='class-section-content'>
             <div className='class-test-main-wrapper'>
-              <div className='class-test-box-1'>The Crow and the Pitcher</div>
+              <div className='class-test-box-1'>Funny Macmac</div>
               <div className='class-test-box-2'>
-                Once, on a <span className='words-controller'>sunny</span> day,
-                a crow <span className='words-controller'>found</span> a
-                pitcher. The crow was{" "}
-                <span className='words-controller'>thirsty</span>. It used a
-                stone to drop into the pitcher and get the{" "}
-                <span className='words-controller'>water</span> it needed.
+                Macmac is a black crow. She is a{" "}
+                <span className='words-controller'>funny</span> crow. Macmac{" "}
+                <span className='words-controller'>likes</span> to go to the
+                well. She likes to run around the well. Ted sees Macmac run
+                around the well. Ted{" "}
+                <span className='words-controller'>yells</span>, Macmac dont run
+                around the well! Macmac falls into the well! Oh, oh! She cant
+                swim. What to do, what to do? Ted gets a big net. He gets Macmac
+                out of the well. Thats good. Macmac is wet but{" "}
+                <span className='words-controller'>Happy</span> Ted is happy,
+                too.
               </div>
               <div className='class-test-box-3'>
                 <button
@@ -349,7 +354,6 @@ const L1Test1 = () => {
                   </tbody>
                 </table>
               </div>
-
               <p style={{ height: "14px" }}>Your Score for this Quiz:</p>
               <input
                 type='text'
@@ -387,10 +391,11 @@ const L1Test1 = () => {
                   style={{ display: "flex", flexDirection: "row" }}>
                   <input
                     type='text'
-                    placeholder='STUDENT ID'
+                    placeholder='ID'
                     style={{
                       color: "black",
                       maxWidth: "32px",
+                      textAlign: "center",
                       padding: "0",
                     }}
                     disabled
@@ -424,4 +429,4 @@ const L1Test1 = () => {
   );
 };
 
-export default L1Test1;
+export default L3Test1;

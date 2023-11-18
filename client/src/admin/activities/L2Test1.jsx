@@ -3,8 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import NavA from "../NavA";
 import Axios from "axios";
 
-const L1Test1 = () => {
-  const wordData = ["Sunny", "Found", "Thirsty", "Water"];
+const L2Test1 = () => {
+  const wordData = ["White", "Pretty", "Jumps", "Play"];
   const [quizItemsCorrectness, setQuizItemsCorrectness] = useState(
     Array(wordData.length).fill("")
   );
@@ -76,7 +76,7 @@ const L1Test1 = () => {
   };
 
   let textToRead =
-    "Once, on a sunny day, a crow found a pitcher. The crow was thirsty. It used a stone to drop into the pitcher and get the water it needed.";
+    "I have two pet cats. Tintin is my white cat. Bimbim is my tan cat. Tintin White Cat sits on a red mat. She is fat and pretty. She likes to sit on the red mat. Bimbim Tan Cat walks by. Hejumpson the mat. And now Tintin is mad. You cant have my mat! she says to Bimbim. Bimbim is sad. He does not want the red mat. He just wants to play with tintin.";
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -266,14 +266,17 @@ const L1Test1 = () => {
           </div>
           <div className='class-section-content'>
             <div className='class-test-main-wrapper'>
-              <div className='class-test-box-1'>The Crow and the Pitcher</div>
+              <div className='class-test-box-1'>My Two Pet Cats</div>
               <div className='class-test-box-2'>
-                Once, on a <span className='words-controller'>sunny</span> day,
-                a crow <span className='words-controller'>found</span> a
-                pitcher. The crow was{" "}
-                <span className='words-controller'>thirsty</span>. It used a
-                stone to drop into the pitcher and get the{" "}
-                <span className='words-controller'>water</span> it needed.
+                I have two pet cats. Tintin is my{" "}
+                <span className='words-controller'>white</span> cat. Bimbim is
+                my tan cat. Tintin White Cat sits on a red mat. She is fat and{" "}
+                <span className='words-controller'>pretty.</span> She likes to
+                sit on the red mat. Bimbim Tan Cat walks by. He{" "}
+                <span className='words-controller'>jumps</span> on the mat. And
+                now Tintin is mad. You cant have my mat! she says to Bimbim.
+                Bimbim is sad. He does not want the red mat. He just wants to{" "}
+                <span className='words-controller'>play</span> with tintin.
               </div>
               <div className='class-test-box-3'>
                 <button
@@ -349,18 +352,6 @@ const L1Test1 = () => {
                   </tbody>
                 </table>
               </div>
-
-              <p style={{ height: "14px" }}>Your Score for this Quiz:</p>
-              <input
-                type='text'
-                value={score}
-                style={{
-                  textAlign: "center",
-                  height: "34px",
-                  fontSize: "28px",
-                }}
-                disabled
-              />
             </div>
           </div>
           <div className='quiz-items-wrapper'>
@@ -415,6 +406,17 @@ const L1Test1 = () => {
                       isListening ? "active-listening-2" : ""
                     } `}></div>
                 </div>
+                <p style={{ height: "14px" }}>Your Score for this Quiz:</p>
+                <input
+                  type='text'
+                  value={score}
+                  style={{
+                    textAlign: "center",
+                    height: "34px",
+                    fontSize: "28px",
+                  }}
+                  disabled
+                />
               </div>
             </div>
           </div>
@@ -424,4 +426,4 @@ const L1Test1 = () => {
   );
 };
 
-export default L1Test1;
+export default L2Test1;

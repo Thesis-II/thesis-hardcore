@@ -14,6 +14,7 @@ const Dashboard = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [sectionID, setSectionID] = useState("");
+  const [userId, setUserId] = useState("");
 
   // For Modal Start //
   useEffect(() => {
@@ -55,6 +56,22 @@ const Dashboard = () => {
     setIsEditModalVisible(false);
   };
   // For Modal End //
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      Axios.get("http://localhost:3001/api/getUserId", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((response) => {
+          setUserId(response.data.userId);
+        })
+        .catch((error) => {
+          console.error("Error fetching user ID:", error);
+        });
+    }
+  }, []);
 
   const deleteSection = async (sectionName) => {
     try {
@@ -111,14 +128,15 @@ const Dashboard = () => {
     try {
       const response = await Axios.post("http://localhost:3001/api/insection", {
         sname: sname,
+        userID: userId, // Include the userId directly in the payload
       });
 
       console.log(response.data);
 
-      if (response.data.trim() === "Data inserted successfully") {
-        alert("Successfully added to list!");
+      if (response.data.trim() === "data inserted successfully") {
+        alert("Successfully added to the list!");
       } else {
-        alert("Successfully added to list!");
+        alert("Successfully added to the list!");
       }
     } catch (error) {
       console.error(error);
@@ -134,9 +152,17 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchSectionData = async () => {
       try {
+        const token = localStorage.getItem("token");
+
         const response = await Axios.get(
-          "http://localhost:3001/api/sectionList"
+          "http://localhost:3001/api/sectionList",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
+
         setSectionData(response.data);
       } catch (error) {
         console.error(error);
@@ -199,6 +225,7 @@ const Dashboard = () => {
             name='fname'
             onChange={handleFirstNameChange}
             value={firstName}
+            style={{ textAlign: "center" }}
           />
           <label className='add-new-student-content' htmlFor='fname'>
             Last Name :
@@ -210,9 +237,11 @@ const Dashboard = () => {
             name='fname'
             onChange={handleLastNameChange}
             value={lastName}
+            style={{ textAlign: "center" }}
           />
           <label className='add-new-student-content' htmlFor='fname'>
-            Assign to Section :
+            Assign to Section :{" "}
+            <span style={{ color: "gray" }}>Enter Section #</span>
           </label>
           <input
             autoComplete='off'
@@ -221,6 +250,7 @@ const Dashboard = () => {
             name='sectionID'
             onChange={handleSectionIDChange}
             value={sectionID}
+            style={{ textAlign: "center" }}
           />
           <div className='button-for-new-student-submission'>
             <button className='submit-new-student' onClick={handleAddStudent}>
@@ -232,8 +262,10 @@ const Dashboard = () => {
           <table className='section-list'>
             <thead>
               <tr>
-                <th>#</th>
-                <th className='section-th'>Section Name</th>
+                <th style={{ textAlign: "center" }}>#</th>
+                <th className='section-th' style={{ textAlign: "center" }}>
+                  Section Name
+                </th>
                 <th className='th-control'>
                   <img style={{ width: "35px" }} src={Setting} alt='Setting' />
                 </th>
@@ -242,8 +274,8 @@ const Dashboard = () => {
             <tbody>
               {sectionData.map((section, index) => (
                 <tr key={index}>
-                  <td>{section.sectionID}</td>
-                  <td>{section.sname}</td>
+                  <td style={{ textAlign: "center" }}>{section.sectionID}</td>
+                  <td style={{ textAlign: "center" }}>{section.sname}</td>
                   <td className='td-control'>
                     <Link to={`/student/${section.sectionID}`}>
                       <button className='btn-view'>View</button>
@@ -258,6 +290,11 @@ const Dashboard = () => {
                       onClick={() => deleteSection(section.sname)}>
                       Delete
                     </button>
+                    <Link
+                      className='start-class-btn'
+                      to={`/startClass/${section.sectionID}`}>
+                      Start
+                    </Link>
                   </td>
                 </tr>
               ))}
@@ -292,6 +329,12 @@ const Dashboard = () => {
                     id='sectionName'
                     placeholder='eg. Maharlika'
                     onChange={(e) => setSname(e.target.value)}
+                  />
+                  <input
+                    className='user-id'
+                    value={userId}
+                    type='text'
+                    disabled
                   />
                   <button onClick={addlist} className='btn2'>
                     Submit

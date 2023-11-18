@@ -5,6 +5,9 @@ const app = express();
 const mysql2 = require("mysql2");
 const jwt = require("jsonwebtoken");
 
+const secretKey =
+  process.env.SECRET_KEY || "gV2$r9^uLpQw3ZtYxYzA#dG!kLmNp3s6v9y/B?E";
+
 const db = mysql2.createPool({
   host: "localhost",
   user: "root",
@@ -17,73 +20,57 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Login into user account start
-app.post("/api/login", (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
+app.post("/login", (req, res) => {
+  const { username, password } = req.body;
 
-  const sqlSelectUser =
-    "SELECT UserID FROM user_account WHERE username = ? AND password = ?";
+  if (!username || !password) {
+    return res
+      .status(400)
+      .json({ error: "Username and password are required." });
+  }
 
-  db.query(sqlSelectUser, [username, password], (err, result) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send("Error during login");
+  const query =
+    "SELECT * FROM user_account WHERE username = ? AND password = ?";
+
+  db.query(query, [username, password], (error, results) => {
+    if (error) {
+      console.error("Database error:", error);
+      return res.status(500).json({ error: "Internal server error." });
+    }
+
+    if (results.length === 1) {
+      const user = results[0];
+      const token = jwt.sign({ userId: user.UserID }, secretKey);
+      return res
+        .status(200)
+        .json({ message: "Login successful", userId: user.UserID, token });
     } else {
-      if (result.length > 0) {
-        const user = result[0];
-        const userID = user.UserID;
-        const sectionID = user.sectionID;
-
-        const token = jwt.sign(
-          { userId: userID, sectionId: sectionID },
-          "your-secret-key",
-          {
-            expiresIn: "1h",
-          }
-        );
-
-        res.status(200).json({
-          message: "Login successful",
-          token: token,
-        });
-      } else {
-        res.status(401).send("Invalid credentials");
-      }
+      return res.status(401).json({ error: "Invalid username or password." });
     }
   });
 });
 
-// In the /api/user-data route
-app.get("/api/user-data", (req, res) => {
-  const token = req.headers.authorization;
-  console.log("Token in request headers:", token);
-
+const verifyToken = (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1];
   if (!token) {
-    return res.status(401).send("Unauthorized");
+    return res.status(401).json({ error: "Unauthorized: Token not provided" });
   }
 
-  try {
-    const decoded = jwt.verify(token, "your-secret-key");
-    console.log("Decoded token:", decoded);
-    const userID = decoded.userId;
-    const sectionID = decoded.sectionId;
+  jwt.verify(token, secretKey, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ error: "Unauthorized: Invalid token" });
+    }
 
-    const sqlSelect =
-      "SELECT * FROM section_list WHERE UserID = ? AND sectionID = ?";
+    req.userId = decoded.userId;
+    next();
+  });
+};
 
-    db.query(sqlSelect, [userID, sectionID], (err, result) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send("Error during data retrieval");
-      } else {
-        res.status(200).json(result);
-      }
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(401).send("Invalid token");
-  }
+app.get("/api/getUserId", verifyToken, (req, res) => {
+  const userId = req.userId;
+  res.status(200).json({ userId });
 });
+
 // Login into user account end
 
 // Insert New User Account Start //
@@ -113,17 +100,14 @@ function generateRandomAccountNumber() {
   return randomAccountNumber;
 }
 
-// Your existing route code
 app.post("/api/insert", (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   const sqlInsert =
     "INSERT INTO user_account (UserID, username, password) VALUES (?,?,?)";
 
-  // Generate a random account number (UserID) using the function
   const randomAccountNumber = generateRandomAccountNumber();
 
-  // Continue with the rest of your code
   db.query(
     sqlInsert,
     [randomAccountNumber, username, password],
@@ -141,12 +125,12 @@ app.post("/api/insert", (req, res) => {
   );
 });
 // Insert New User Account End //
+
 // Insert New Section Start //
 app.post("/api/insection", (req, res) => {
   const sname = req.body.sname;
-  const userID = req.body.userID; // Extract the userID from the request body
+  const userID = req.body.userID;
 
-  // Modify your SQL query to insert both section name and user ID into the database
   const sqlInsert = "INSERT INTO section_list (sname, UserID) VALUES (?, ?)";
 
   db.query(sqlInsert, [sname, userID], (err, result) => {
@@ -162,10 +146,13 @@ app.post("/api/insection", (req, res) => {
   });
 });
 // Insert New Section END //
+
 // Fetch Data to Table Start //
-app.get("/api/sectionList", (req, res) => {
-  const sqlSelect = "SELECT * FROM section_list";
-  db.query(sqlSelect, (err, results) => {
+app.get("/api/sectionList", verifyToken, (req, res) => {
+  const userId = req.userId;
+
+  const sqlSelect = "SELECT * FROM section_list WHERE UserID = ?";
+  db.query(sqlSelect, [userId], (err, results) => {
     if (err) {
       console.error(err);
       res.status(500).send("Error fetching section data");
@@ -175,6 +162,7 @@ app.get("/api/sectionList", (req, res) => {
   });
 });
 // Fetch Data to Table End //
+
 // Update Data in Table Start //
 app.put("/api/updateSName", (req, res) => {
   const sname = req.body.sname;
@@ -200,6 +188,7 @@ app.put("/api/updateSName", (req, res) => {
   });
 });
 // Update Data in Table End //
+
 // Delete Data in Table Start //
 app.delete("/api/deleteSection/:sectionName", (req, res) => {
   const sectionName = req.params.sectionName;
@@ -220,6 +209,7 @@ app.delete("/api/deleteSection/:sectionName", (req, res) => {
   });
 });
 // Delete Data in Table End //
+
 // Add New Student on List Start
 app.post("/api/students", async (req, res) => {
   const firstName = req.body.firstName;
@@ -248,6 +238,7 @@ app.post("/api/students", async (req, res) => {
   );
 });
 // Add New Student on List End
+
 // Update Student on List Start //
 app.put("/api/studentData/:id", (req, res) => {
   const id = req.params.id;
@@ -276,6 +267,7 @@ app.put("/api/studentData/:id", (req, res) => {
   });
 });
 // Update Student on List End //
+
 // Delete Student on List Start //
 app.delete("/api/studentData/:id", (req, res) => {
   const id = req.params.id;
@@ -296,9 +288,78 @@ app.delete("/api/studentData/:id", (req, res) => {
   });
 });
 // Delete Student on List End //
+
+// UPDATE TOTAL SCORE START //
+app.post("/api/updateTotalScore", (req, res) => {
+  const { studentID, newScore } = req.body;
+  console.log(
+    "Received request to update total_score for student ID:",
+    studentID
+  );
+
+  // Fetch the current total score for the student
+  const sqlSelectTotalScore =
+    "SELECT total_score FROM student_list WHERE id = ?";
+  db.query(sqlSelectTotalScore, [studentID], (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Error fetching current total_score");
+    } else {
+      const currentTotalScore = results[0].total_score;
+      const updatedTotalScore = currentTotalScore + newScore;
+
+      // Update the total score in the database
+      const sqlUpdate = "UPDATE student_list SET total_score = ? WHERE id = ?";
+      db.query(
+        sqlUpdate,
+        [updatedTotalScore, studentID],
+        (err, updateResults) => {
+          if (err) {
+            console.error(err);
+            res.status(500).send("Error updating total_score");
+          } else {
+            console.log("Total score updated successfully");
+            res.status(200).send("Total score updated successfully");
+          }
+        }
+      );
+    }
+  });
+});
+// UPDATE TOTAL SCORE END //
+
+// FETCHING A SINGLE STUDENT START //
+app.get("/api/student", (req, res) => {
+  const studentID = req.query.studentID;
+  console.log("Received studentID:", studentID);
+
+  const sqlSelect =
+    "SELECT id, firstName, lastName, total_score FROM student_list WHERE id = ?";
+
+  db.query(sqlSelect, [studentID], (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Error fetching student data");
+    } else {
+      console.log("Query results:", results);
+
+      const studentData = results[0];
+      const enhancedStudentData = {
+        ...studentData,
+        studentID: studentData.id,
+      };
+
+      res.status(200).json(enhancedStudentData);
+    }
+  });
+});
+// FETCHING A SINGLE STUDENT END //
+
 // Display Student Data to Table Start //
 app.get("/api/studentList", (req, res) => {
   const sectionID = req.query.sectionID;
+  console.log("Received sectionID:", sectionID);
+
   const sqlSelect = "SELECT * FROM student_list WHERE sectionID = ?";
 
   db.query(sqlSelect, [sectionID], (err, results) => {
@@ -306,11 +367,14 @@ app.get("/api/studentList", (req, res) => {
       console.error(err);
       res.status(500).send("Error fetching student data");
     } else {
+      console.log("Query results:", results);
       res.status(200).json(results);
     }
   });
 });
+
 // Display Student Data to Table End //
+
 // Fetching Database Stored Words Start //
 app.get("/api/wordData", (req, res) => {
   const query = "SELECT word FROM words ORDER BY RAND() LIMIT 10";

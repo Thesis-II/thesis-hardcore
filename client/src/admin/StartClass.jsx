@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import NavA from "./NavA";
 
 const StartClass = () => {
+  const { sectionID } = useParams();
+
   return (
     <div>
       <NavA />
@@ -16,7 +18,7 @@ const StartClass = () => {
                 <div className='class-sidebar-menu'>
                   <ul>
                     <li>
-                      <Link to='/lesson1'>
+                      <Link to={`/lesson1/${sectionID}`}>
                         <div className='class-sidebar-semi-container'>
                           <h2>UNIT 1</h2>
                         </div>

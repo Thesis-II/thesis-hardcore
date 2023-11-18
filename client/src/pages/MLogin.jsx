@@ -9,23 +9,16 @@ const MLogin = () => {
   const navigate = useNavigate();
 
   const login = () => {
-    Axios.post("http://localhost:3001/api/login", {
-      username: username,
-      password: password,
-    })
+    Axios.post("http://localhost:3001/login", { username, password })
       .then((response) => {
-        if (response.data.token) {
-          localStorage.setItem("token", response.data.token);
-          console.log("Token stored in localStorage:", response.data.token);
-          alert("Login successful!");
-          navigate("/homeA"); // Redirect to the home page after successful login
-        } else {
-          alert("Login Failed.");
-        }
+        const token = response.data.token;
+        localStorage.setItem("token", token); // Store the token in local storage
+        alert("Login successful!");
+        navigate("/dashboard");
       })
       .catch((error) => {
-        console.error(error);
-        alert("An error occurred during login.");
+        console.error("Login failed:", error);
+        alert("Login failed. Check your username and password.");
       });
   };
 

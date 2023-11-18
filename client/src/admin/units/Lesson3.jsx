@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import NavA from "../NavA";
-import Sunny from "../../assets/Unit1/sunny.jpg";
-import found from "../../assets/Unit1/found.jpeg";
-import thirsty from "../../assets/Unit1/thirsty.jpg";
-import water from "../../assets/Unit1/water.jpg";
+import Sunny from "../../assets/Unit1/funny.jpg";
+import found from "../../assets/Unit1/like.jpg";
+import thirsty from "../../assets/Unit1/yell.jpeg";
+import water from "../../assets/Unit1/happy.jpg";
 
-const Lesson1 = () => {
-  const [wordData] = useState(["Sunny", "Found", "Thirsty", "Water"]);
+const Lesson3 = () => {
+  const [wordData] = useState(["Funny", "Like", "Yell", "Happy"]);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedVoice, setSelectedVoice] = useState(null);
@@ -317,4 +317,4 @@ const Lesson1 = () => {
   );
 };
 
-export default Lesson1;
+export default Lesson3;

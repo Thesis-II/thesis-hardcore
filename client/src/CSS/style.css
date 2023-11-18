@@ -553,7 +553,7 @@ nav ul li a.active {
 }
 .add-student-to-section {
   width: 20%;
-  height: 60%;
+  height: 65%;
   border-radius: 10px;
   margin-top: 40px;
   padding: 10px 10px;
@@ -609,13 +609,6 @@ input[type="text"] {
   border-right: 3px solid black;
   background-color: white;
 }
-.button-for-starting-class {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 40px;
-}
 .start-class {
   background-color: #1434a4; /* Green */
   border: none;
@@ -657,7 +650,7 @@ input[type="text"] {
   gap: 0.4rem;
   width: 450px;
   padding: 1.3rem;
-  min-height: 250px;
+  min-height: 350px;
   top: 20%;
   background-color: white;
   border: 1px solid #ddd;
@@ -716,9 +709,10 @@ button {
 }
 .btn2-close {
   transform: translate(10px, -20px);
-  padding: 0.5rem 0.7rem;
-  background: #eee;
+  padding: 0.7rem 0.7rem;
+  background: #a3a3a3;
   border-radius: 50%;
+  font-size: 18px;
 }
 .overlay {
   position: fixed;
@@ -734,6 +728,13 @@ button {
 }
 .hidden {
   display: none;
+}
+.user-id {
+  margin: 8px;
+  border: 2px black solid;
+  background-color: rgb(150, 150, 150);
+  text-align: center;
+  box-shadow: 0 0 8px;
 }
 /*MODAL CSS END*/
 /*Student Practice Section CSS START*/
@@ -1065,7 +1066,7 @@ button {
 /*UNIT 1 CSS END*/
 /*TEST UI START*/
 .class-test-main-wrapper {
-  width: 70%;
+  width: 100%;
   height: 100%;
   box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 0.2),
     5px 5px 5px 0 rgba(0, 0, 0, 0.19);
@@ -1086,6 +1087,8 @@ button {
   font-size: 24px;
   width: 100%;
   padding: 10px;
+  max-height: 120px;
+  overflow-x: auto;
 }
 .class-test-box-3 {
   width: 100%;
@@ -1120,15 +1123,159 @@ button {
   background-color: #0c4d0e;
   box-shadow: 0px 2px black;
 }
+
 .class-test-box-4 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
+  max-height: 340px;
+  overflow-x: auto;
 }
+
 .class-test-table {
   width: 100%;
+  border-collapse: collapse;
+}
+
+.class-test-table th,
+.class-test-table td {
+  text-align: center;
+  padding: 8px;
+  border: 1px solid #ddd; /* Add borders for better visibility */
+}
+
+.class-test-table thead th {
+  background-color: #008cba;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* Set a fixed width for the ID column */
+.class-test-table td:first-child {
+  position: sticky;
+  left: 0;
+  width: 40px; /* Adjust the width as needed */
   background-color: #008cba;
   color: white;
 }
+
+/* Shift the other columns to the right */
+.class-test-table td:not(:first-child) {
+  background-color: white; /* Set background color for other cells */
+  margin-left: 40px; /* Adjust the margin to match the ID column width */
+}
+
+.start-class-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 40px;
+  margin-left: 62px;
+  transition: 0.5s;
+  background-color: #00151b;
+  color: white;
+}
+.start-class-btn:hover {
+  border: 2px solid black;
+  background-color: white;
+  color: black;
+}
+.l1t1-take-btn {
+  height: 42px;
+  width: 62px;
+  margin: 6px;
+  border: 2px solid black;
+  border-radius: 8px;
+  transition: 0.5s;
+}
+.l1t1-take-btn:hover {
+  background-color: black;
+  color: white;
+}
+.progress-bar {
+  width: 100%;
+  margin: 12px;
+  background-color: gray;
+  border: 2px solid black;
+  border-radius: 12px;
+}
+.quiz-items-wrapper {
+  width: 20%;
+  height: 100%;
+  margin: auto;
+}
+.quiz-items {
+  height: 18%;
+}
+.quiz-item {
+  height: 45%;
+  border: 2px solid black;
+  background-color: rgb(74, 33, 33);
+  color: white;
+  font-size: 38px;
+  text-align: center;
+}
+.quiz-item-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 38px;
+}
+.qz-itm-btn {
+  height: 100%;
+  width: 100%;
+  border-radius: 8px;
+  margin: 8px;
+  padding: 8px;
+  background-color: rgb(202, 199, 199);
+  transition: 0.5s;
+}
+.qz-itm-btn:hover {
+  background-color: gray;
+  color: whitesmoke;
+}
+.right-wrong-indicator {
+  text-align: center;
+  background-color: #777;
+  margin-top: 2px;
+  border-radius: 4px;
+}
+.quiz-item-indicator {
+  width: 52px;
+  height: 52px;
+  border-radius: 32px;
+  background-color: red;
+  border: 1px black solid;
+  margin: 3px;
+}
+.quiz-item-indicator-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.active-listening-2 {
+  background-color: #0437f2;
+  transition: 0.5s;
+}
 /*TEST UI START*/
+.retake-button {
+  margin: 12px;
+  width: 84px;
+  height: 42px;
+  background-color: #0437f2;
+  color: white;
+  border-radius: 4px;
+}
+.next-button {
+  width: 84px;
+  height: 42px;
+  background-color: #06840a;
+  color: white;
+  border-radius: 4px;
+}
+.retake-button:hover {
+  background-color: #00151b;
+  color: white;
+  transition: 0.5s;
+}

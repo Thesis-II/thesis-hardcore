@@ -93,25 +93,37 @@ const Practice = () => {
     navigate("/lvlHard");
   };
 
-  // Check if all words have been pronounced
   const allWordsPronounced = currentWordIndex >= wordData.length - 1;
 
   const handleRetake = () => {
-    setCurrentWordIndex(0);
     setScore(0);
+    setCurrentWordIndex(0);
     setShowWords(true);
+    const updatedChartData = generateChartData();
+    localStorage.setItem("chartData", JSON.stringify(updatedChartData));
+    window.location.reload();
   };
 
   const handleNext = () => {
-    // Save the updated score history to localStorage
     localStorage.setItem(
       "overallScoreHistory",
       JSON.stringify(overallScoreHistory)
     );
 
-    setCurrentWordIndex(0);
-    setScore(0);
+    setCurrentWordIndex(currentWordIndex + 1);
+
+    if (currentWordIndex >= 9) {
+      setScore(0);
+      setCurrentWordIndex(0);
+    }
+
+    const updatedChartData = generateChartData();
+
+    localStorage.setItem("chartData", JSON.stringify(updatedChartData));
+
     setShowWords(true);
+
+    window.location.reload();
   };
 
   const generateChartData = () => {
@@ -148,6 +160,8 @@ const Practice = () => {
     }
   };
 
+  const chartData = generateChartData();
+
   return (
     <div>
       <Navbar />
@@ -165,11 +179,16 @@ const Practice = () => {
                     </p>
                   )}
                 </div>
-                <div
-                  className='scores-graph'
-                  style={{ width: "50%" }}
-                  id='scores-chart'>
-                  <Bar data={generateChartData()} ref={chartRef} />
+                <div className='scores-graph' id='scores-chart'>
+                  <Bar
+                    data={chartData}
+                    ref={chartRef}
+                    options={{
+                      responsive: true,
+                      maintainAspectRatio: false, // Set to false to control width and height independently
+                      height: 200, // Set your desired height
+                    }}
+                  />
                 </div>
               </div>
               <div className='box-2'>
@@ -188,7 +207,7 @@ const Practice = () => {
                     </button>
                   )}
                   {!showWords && (
-                    <button className='start-button' onClick={handleRetake}>
+                    <button className='retake-button' onClick={handleRetake}>
                       Retake
                     </button>
                   )}
