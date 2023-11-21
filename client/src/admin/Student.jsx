@@ -5,7 +5,7 @@ import NavA from "./NavA";
 
 const Student = () => {
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-  const [editStudentId, setEditStudentId] = useState(null); // Correct the state declaration
+  const [editStudentId, setEditStudentId] = useState(null);
   const { sectionID } = useParams();
   const [studentData, setStudentData] = useState([]);
   const [editFirstName, setEditFirstName] = useState("");
@@ -172,8 +172,8 @@ const Student = () => {
                 <th className='section-th' style={{ textAlign: "center" }}>
                   Section ID
                 </th>
-                <th className='th-control' style={{ textAlign: "center" }}>
-                  %
+                <th className='section-th' style={{ textAlign: "center" }}>
+                  Menu
                 </th>
               </tr>
             </thead>
@@ -184,9 +184,6 @@ const Student = () => {
                   <td style={{ textAlign: "center" }}>{student.firstName}</td>
                   <td style={{ textAlign: "center" }}>{student.lastName}</td>
                   <td style={{ textAlign: "center" }}>{sectionID}</td>
-                  <td style={{ textAlign: "center" }}>
-                    {(student.total_score / 8) * 100}%
-                  </td>
                   <td className='td-control'>
                     <button
                       className='btn-edit'

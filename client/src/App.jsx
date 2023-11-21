@@ -20,6 +20,7 @@ import Lesson2 from "./admin/units/Lesson2";
 import L2Test1 from "./admin/activities/L2Test1";
 import Lesson3 from "./admin/units/Lesson3";
 import L3Test1 from "./admin/activities/L3Test1";
+import FinalExam from "./admin/units/FinalExam";
 
 function App() {
   return (
@@ -39,7 +40,6 @@ function App() {
         <Route path='/register' element={<MRegister />} />
         <Route path='/about' element={<About />} />
         <Route path='/dashboard' element={<Dashboard />} />
-        <Route path='/assessment' element={<Assessment />} />
         <Route path='/practice' element={<Practice />} />
         <Route path='/lvlNormal' element={<NormalPage />} />
         <Route path='/lvlHard' element={<HardPage />} />
@@ -50,7 +50,9 @@ function App() {
         <Route path='/lesson2/:sectionID' element={<Lesson2 />} />
         <Route path='/l2t1/:sectionID' element={<L2Test1 />} />
         <Route path='/lesson3/:sectionID' element={<Lesson3 />} />
+        <Route path='/assessment' element={<Assessment />} />
         <Route path='/l3t1/:sectionID' element={<L3Test1 />} />
+        <Route path='/finalExam/:sectionID' element={<FinalExam />} />
       </Routes>
     </div>
   );

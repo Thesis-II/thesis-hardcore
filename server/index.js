@@ -392,6 +392,91 @@ app.get("/api/wordData", (req, res) => {
 });
 // Fetching Database Stored Words End //
 
+// FETCH ID AND TITLE FROM STORIES TABLE START //
+app.get("/get-stories", (req, res) => {
+  // Fetch all stories from the stories_table
+  db.query("SELECT stories_id, title FROM stories_table", (err, results) => {
+    if (err) {
+      console.error("Error fetching stories:", err);
+      return res
+        .status(500)
+        .json({ error: "Internal Server Error", message: err.message });
+    }
+
+    res.status(200).json(results);
+  });
+});
+// FETCH ID AND TITLE FROM STORIES TABLE END //
+
+// ADD STORY AND WORDS TO DATABASE START //
+app.post("/submit-story", (req, res) => {
+  const { title, content, addedWords } = req.body;
+
+  db.query(
+    "INSERT INTO stories_table (title, content) VALUES (?, ?)",
+    [title, content],
+    (err, results) => {
+      if (err) {
+        console.error("Error inserting story:", err);
+        return res.status(500).json({ message: "Internal Server Error" });
+      }
+
+      const storyId = results.insertId;
+
+      const proWords = addedWords.map((word) => [word, storyId]);
+      db.query(
+        "INSERT INTO pro_table (word, stories_id) VALUES ?",
+        [proWords],
+        (err) => {
+          if (err) {
+            console.error("Error inserting words:", err);
+            return res.status(500).json({ message: "Internal Server Error" });
+          }
+
+          res.status(201).json({ message: "Story submitted successfully." });
+        }
+      );
+    }
+  );
+});
+// ADD STORY AND WORDS TO DATABASE END //
+
+// DELETE STORIES FROM DATABASE START //
+app.delete("/delete-story/:storyId", (req, res) => {
+  const storyId = req.params.storyId;
+
+  if (storyId === undefined) {
+    return res.status(400).json({ message: "Invalid story ID" });
+  }
+
+  // Delete the records from the pro_table first
+  db.query("DELETE FROM pro_table WHERE stories_id = ?", [storyId], (err) => {
+    if (err) {
+      console.error("Error deleting words:", err);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+
+    // Delete the row from the stories_table
+    db.query(
+      "DELETE FROM stories_table WHERE stories_id = ?",
+      [storyId],
+      (err, results) => {
+        if (err) {
+          console.error("Error deleting story:", err);
+          return res.status(500).json({ message: "Internal Server Error" });
+        }
+
+        if (results.affectedRows === 0) {
+          return res.status(404).json({ message: "Story not found" });
+        }
+
+        res.status(200).json({ message: "Story deleted successfully." });
+      }
+    );
+  });
+});
+// DELETE STORIES FROM DATABASE END //
+
 app.listen(3001, () => {
   console.log("Server is running on Port 3001");
 });

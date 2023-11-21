@@ -293,7 +293,13 @@ const Dashboard = () => {
                     <Link
                       className='start-class-btn'
                       to={`/startClass/${section.sectionID}`}>
-                      Start
+                      Lessons
+                    </Link>
+                    <Link
+                      style={{ textAlign: "center" }}
+                      className='final-class-btn'
+                      to={`/finalExam/${section.sectionID}`}>
+                      Exam
                     </Link>
                   </td>
                 </tr>
