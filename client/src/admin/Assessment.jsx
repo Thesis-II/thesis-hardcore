@@ -68,7 +68,7 @@ const Assessment = () => {
 
         if (response.ok) {
           const sectionsData = await response.json();
-          console.log("Sections Data:", sectionsData); // Log the data
+          console.log("Sections Data:", sectionsData);
           setSections(sectionsData);
         } else {
           console.error("ERROR FETCHING SECTIONS.");

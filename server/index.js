@@ -477,6 +477,145 @@ app.delete("/delete-story/:storyId", (req, res) => {
 });
 // DELETE STORIES FROM DATABASE END //
 
+// FETCHING STUDENT FOR EXAMINATION START //
+app.get("/api/studentExam", (req, res) => {
+  const studentID = req.query.studentID;
+  console.log("Received studentID:", studentID);
+
+  const sqlSelect =
+    "SELECT id, firstName, lastName FROM student_list WHERE id = ?";
+
+  db.query(sqlSelect, [studentID], (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Error fetching student data");
+    } else {
+      console.log("Query results:", results);
+
+      if (results.length === 0) {
+        res.status(404).send("Student not found");
+      } else {
+        const studentData = results[0];
+        const enhancedStudentData = {
+          ...studentData,
+          studentID: studentData.id,
+        };
+
+        res.status(200).json(enhancedStudentData);
+      }
+    }
+  });
+});
+// FETCHING STUDENT FOR EXAMINATION END //
+
+// FETCH STORY AND WORDS START //
+app.get("/fetch-story/:storyId", (req, res) => {
+  const storyId = req.params.storyId;
+
+  db.query(
+    "SELECT title, content FROM stories_table WHERE stories_id = ?",
+    [storyId],
+    (err, storyResults) => {
+      if (err) {
+        console.error("Error fetching story details:", err);
+        return res.status(500).json({ message: "Internal Server Error" });
+      }
+
+      if (!storyResults || storyResults.length === 0) {
+        console.log("No results found for story ID:", storyId);
+        return res.status(404).json({ message: "No results found" });
+      }
+
+      db.query(
+        "SELECT word FROM pro_table WHERE stories_id = ?",
+        [storyId],
+        (err, wordResults) => {
+          if (err) {
+            console.error("Error fetching words:", err);
+            return res.status(500).json({ message: "Internal Server Error" });
+          }
+
+          const storyDetails = {
+            title: storyResults[0].title,
+            content: storyResults[0].content,
+            words: wordResults.map((word) => word.word),
+          };
+
+          res.status(200).json(storyDetails);
+        }
+      );
+    }
+  );
+});
+
+// FETCH STORY AND WORDS END //
+
+// SUBMIT SCORE TO DATABASE START //
+app.post("/api/submitScore", (req, res) => {
+  const { studentID, totalScore } = req.body;
+  console.log("Received score submission:", { studentID, totalScore });
+  console.log("Received score submission:", req.body);
+
+  // Get a connection from the pool
+  db.getConnection((err, connection) => {
+    if (err) {
+      console.error("Error getting database connection:", err);
+      res.status(500).send("Internal Server Error");
+      return;
+    }
+
+    // Begin the transaction
+    connection.beginTransaction((err) => {
+      if (err) {
+        console.error("Error beginning transaction:", err);
+        res.status(500).send("Internal Server Error");
+        return connection.release();
+      }
+
+      // Update the database with the student's total score
+      const sqlUpdateScore =
+        "UPDATE graph_table SET score = ? WHERE graph_id = ?";
+      console.log("SQL Query:", sqlUpdateScore, [totalScore, studentID]);
+
+      const studentIDInt = parseInt(studentID, 10);
+
+      connection.query(
+        sqlUpdateScore,
+        [totalScore, studentID],
+        (err, result) => {
+          if (err) {
+            console.error("Error updating score:", err);
+
+            // Rollback the transaction in case of an error
+            connection.rollback(() => {
+              connection.release();
+              res.status(500).send("Internal Server Error");
+            });
+          } else {
+            // Commit the transaction if successful
+            connection.commit((err) => {
+              if (err) {
+                console.error("Error committing transaction:", err);
+                connection.rollback(() => {
+                  connection.release();
+                  res.status(500).send("Internal Server Error");
+                });
+              } else {
+                // Release the connection back to the pool
+                connection.release();
+
+                // Send a success response
+                res.status(200).send("Score submitted successfully");
+              }
+            });
+          }
+        }
+      );
+    });
+  });
+});
+// SUBMIT SCORE TO DATABASE END //
+
 app.listen(3001, () => {
   console.log("Server is running on Port 3001");
 });

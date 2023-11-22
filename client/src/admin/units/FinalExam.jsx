@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import NavA from "../NavA";
 import Axios from "axios";
 
 const FinalExam = () => {
   const [studentData, setStudentData] = useState([]);
   const { sectionID } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchStudentData = async () => {
@@ -22,6 +23,10 @@ const FinalExam = () => {
 
     fetchStudentData();
   }, [sectionID]);
+
+  const reroute = (studentID) => {
+    navigate(`/examination/${studentID}`);
+  };
 
   return (
     <div>
@@ -40,13 +45,17 @@ const FinalExam = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {studentData.map((student, index) => (
+                  {studentData.map((student) => (
                     <tr key={student.id}>
-                      <td>{index + 1}</td>
+                      <td>{student.id}</td>
                       <td>{student.firstName}</td>
                       <td>{student.lastName}</td>
                       <td>
-                        <button className='dlt-btn'>TAKE</button>
+                        <button
+                          className='dlt-btn'
+                          onClick={() => reroute(student.id)}>
+                          TAKE
+                        </button>
                       </td>
                     </tr>
                   ))}

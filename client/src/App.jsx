@@ -21,6 +21,7 @@ import L2Test1 from "./admin/activities/L2Test1";
 import Lesson3 from "./admin/units/Lesson3";
 import L3Test1 from "./admin/activities/L3Test1";
 import FinalExam from "./admin/units/FinalExam";
+import Examination from "./admin/units/Examination";
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
         <Route path='/assessment' element={<Assessment />} />
         <Route path='/l3t1/:sectionID' element={<L3Test1 />} />
         <Route path='/finalExam/:sectionID' element={<FinalExam />} />
+        <Route path='/examination/:studentID' element={<Examination />} />
       </Routes>
     </div>
   );
